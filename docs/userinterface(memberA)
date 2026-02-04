@@ -95,7 +95,7 @@ Error Handling + Exit Behavior.
 
 Required error cases:
 
-1. Invalid number of arguments
+1. Invalid number of arguments.
    Example:
    java topsecret 01 extra tooMany
    Output (suggested):

@@ -1,0 +1,129 @@
+TOPSECRET – Command Line Interface (Team Member A)
+
+Purpose
+
+* Provide a command-line utility to list available mission data files, and display a selected file’s contents.
+* Program is executed from the class `TopSecret` using:
+  java topsecret
+
+Supported Commands
+
+1. List files (no arguments)
+   Command:
+   java topsecret
+
+   Behavior:
+
+   * Lists the numbered files available to display.
+   * Each file is shown on its own line.
+   * Format:
+     NN filename
+     where NN is a 2-digit number starting at 01.
+
+   Example output:
+   01 filea.txt
+   02 fileb.txt
+   03 filec.txt
+
+   Exit:
+
+   * Program exits immediately after printing the list.
+
+2. Display a file (one argument)
+   Command:
+   java topsecret <NN>
+
+   Parameters:
+
+   * <NN> is the 2-digit file selection number shown in the list (e.g., 01, 02, 03).
+   * The program prints the contents of the corresponding file to standard output.
+
+   Example:
+   java topsecret 01
+   Output:
+   (contents of the file mapped to 01)
+
+   Exit:
+
+   * Program exits immediately after printing the file contents.
+
+3. Display a file with alternate cipher key (two arguments)
+   Command:
+   java topsecret <NN> <KEY>
+
+   Parameters:
+
+   * <NN> is the 2-digit file selection number.
+   * <KEY> is an alternate key source used for deciphering.
+     NOTE: This option must exist even if the group is using plain text files.
+     Interpretation of <KEY> (chosen by Team C/D to implement):
+
+     * Either a filename (e.g., key2.txt) or a key identifier string
+     * Must be documented/accepted consistently by implementation
+
+   Behavior:
+
+   * Program attempts to load/use the alternate key for deciphering instead of the default key.
+   * Then prints the displayed file contents (deciphered if necessary).
+
+   Exit:
+
+   * Program exits immediately after printing the file contents or after printing an error message.
+
+Input Validation Rules
+
+* Argument count:
+
+  * 0 args: list files
+  * 1 arg: display file
+  * 2 args: display file using alternate key
+  * Any other count: error
+
+* File selection format (<NN>):
+
+  * Must be exactly two digits: "01", "02", ...
+  * If not two digits or not numeric: error
+
+* File selection existence:
+
+  * If <NN> does not match any available file number: error
+
+Error Handling + Exit Behavior
+
+* All errors should print a clear message to standard output or standard error (implementation choice, but be consistent).
+* After printing an error message, the program exits gracefully (no stack trace).
+
+Required error cases:
+
+1. Invalid number of arguments
+   Example:
+   java topsecret 01 extra tooMany
+   Output (suggested):
+   ERROR: Invalid arguments.
+   Usage: java topsecret [NN] [KEY]
+
+2. Invalid selection format
+   Example:
+   java topsecret 1
+   Output (suggested):
+   ERROR: File selection must be two digits (e.g., 01).
+
+3. Selection not found / no mapping
+   Example:
+   java topsecret 99
+   Output (suggested):
+   ERROR: No file found for selection 99.
+
+4. File read failure (missing/unreadable)
+   Output (suggested):
+   ERROR: Unable to read requested file.
+
+5. Cipher/key problems (if ciphered teams)
+   Output (suggested):
+   ERROR: Unable to decipher file with provided key.
+
+Notes for Team Integration
+
+* Team B will provide the actual list of files (names + ordering) from /data.
+* Team C will map the numbering scheme (01..NN) to the returned file list.
+* Team D (if applicable) will implement deciphering; the CLI only defines how the key is supplied.

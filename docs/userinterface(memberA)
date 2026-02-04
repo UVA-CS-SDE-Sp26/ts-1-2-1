@@ -88,7 +88,7 @@ Input Validation Rules
 
   * If <NN> does not match any available file number: error
 
-Error Handling + Exit Behavior
+Error Handling + Exit Behavior.
 
 * All errors should print a clear message to standard output or standard error (implementation choice, but be consistent).
 * After printing an error message, the program exits gracefully (no stack trace).

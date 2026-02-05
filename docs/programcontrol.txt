@@ -1,0 +1,175 @@
+TopSecret - Program Control (Member C)
+
+Purpose
+
+-Connect command line to file handler
+-Request file contents
+-Return readable text or error messages
+
+Tasks and Responsibilities
+
+-Connect command line to file handler
+    -receive command to open a file
+    -recognize arguments
+    -validate format is correct
+    -ask file handler for file list
+    -return numbered file names or provide file contents from file handler depending on # of arguments
+    -return text to UI
+-Interpret arguments
+    -0 arguments -> list files
+    -1 argument -> display file
+    -2 arguments -> display file using alternate key
+    -more than 2 arguments -> error
+-Request file list with no arguments
+-Request file content with provided number
+-Handle invalid selections
+
+Methods
+
+1. Handle arguments
+
+Purpose:
+determine which operation to perform based on the number and format of arguments from UI
+
+Input:
+Arguments
+
+Behavior:
+-0 args -> call file listing operation
+-1 arg -> call file display operation
+-2 args -> call file display with alternate key
+-more than 2 args -> return error message
+
+Output:
+Formatted output string or error message
+
+2. Request file list
+
+Purpose:
+Requests available file names from the file handler
+
+Input:
+None
+
+Behavior:
+-Call file handler method to retrieve file names
+-Store returned list for numbering and selection mapping
+
+Output:
+List of file names
+
+3. Format file list
+
+Purpose:
+Format file names into numbered output
+
+Input:
+File list
+
+Behavior:
+-Assign numbers starting from 01
+-Ensure two digit formatting is present
+-Combine into multi-line string
+
+Output:
+Formatted string of file names
+
+4. Map selection to a file
+
+Purpose:
+Match the two digit selection number to a filename
+
+Input:
+Selection, file list
+
+Behavior:
+-Validate selection format
+-Confirm selection exists
+-Return corresponding filename or error
+
+Output:
+String of filename or error message
+
+5. Request file contents
+
+Purpose:
+Retrieve file contents from file handler and apply cipher if necessary
+
+Input:
+Filename, key
+
+Behavior:
+-Send filename to file handler
+-Pass default or alternate key
+-Receives readable text or error
+
+Output:
+File content string or error message
+
+Test Cases
+
+1. Argument Count Handling
+-ListFilesNoArgs
+    -no input
+    -File handler returns ["a.txt","b.txt"]
+    -Expected result: formatted list "01 a.txt 02 b.txt"
+-DisplayFileOneArg
+    -Input: ["01"]
+    -File handler returns list and contents
+    -Expected result: file content printed
+-TwoArgsKey
+    -Input: ["01","key1"]
+    -File handler returns decoded text
+    -Expected result: decoded text printed
+-TooManyArgs
+    -Input: ["01","key1","a"]
+    -Expected result: error message
+
+2. File List Formatting
+-TwoFiles
+    -File List: ["a.txt","b.txt"]
+    -Expected result: "01 a.txt 02 b.txt"
+-EmptyList
+    -Empty file list
+    -Expected result: "No files available"
+-ManyFiles
+    -10 files from file list
+    -Expected result: all formatted properly and two digit
+
+3. Selection Mapping
+-Valid01
+    -Input: "01"
+    -File list: ["a.txt","b.txt"]
+    -Expected result: "a.txt" selected
+-Valid02
+    -Input: "02"
+    -File list: ["a.txt","b.txt"]
+    -Expected result: "b.txt" selected
+-InvalidSelectionRange
+    -Input: "03"
+    -File list: ["a.txt","b.txt"]
+    -Expected result: error message
+-InvalidInput
+    -Input: "HI"
+    -File list: ["a.txt","b.txt"]
+    -Expected result: error message
+
+4. File Content Request
+-ValidFile
+    -Input: "01"
+    -File handler returns: text from file 01
+    -Expected result: text from file 01
+-MissingFile
+    -Input: "01"
+    -File handler returns: null/error
+    -Expected result: error message
+
+5. Alternate Key
+-ValidKey
+    -Input: ["01","key1"]
+    -File handler returns: decoded text
+    -Expected result: decoded text
+-InvalidKey
+    -Input: ["01","not a key"]
+    -File handler returns: error
+    -Expected result: error message

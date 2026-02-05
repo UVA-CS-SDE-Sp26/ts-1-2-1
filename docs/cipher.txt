@@ -11,7 +11,7 @@ Inputs:
     String of second line in the cipher
         -ciphered character that will be matched to the string above
 
-Requriements to use:
+Requirements to use:
     - needs method to read txt files and convert to strings
     - when cipher is accessed, it must be validated
     - must work even when incomplete ciphers are used
@@ -19,7 +19,7 @@ Requriements to use:
 
 Pseudo Code:
 
-Create a empty string where you store characters and will eventually return
+Create an empty string where you store characters and will eventually return
 First loop through each individual character in the cipher key
     Place the character into a hashset, with the key being the ciphered character
     and the value being the deciphered character

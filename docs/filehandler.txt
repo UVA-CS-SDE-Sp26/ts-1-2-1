@@ -1,0 +1,20 @@
+Top Secret - File Handler
+
+```
+FileHandler
+---
+directory
+---
+getFileList():ArrayList<String>
+getFileContents(file):String
+```
+Test Cases
+
+`getFileList()`
+1. Empty directory, should return an empty list
+2. Directory with a few files, should return a list of those files (exclude `.` and `..`).
+
+`getFileContents()`
+1. Empty File -> empty string
+2. Non text file -> return null
+3. Normal text file -> Ciphered text file contents

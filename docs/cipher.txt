@@ -35,4 +35,4 @@ Test Cases:
 1. given key.txt and the ciphered string "eph", should return "dog"
 2. given any string and an empty cipher, should return the original string
 3. given the cipher of key.txt and a ciphered string "eph." should return "dog."
-
+4. given a ciphered string that is the first line of key.txt, return the 2nd line of key.txt

@@ -5,14 +5,19 @@ FileHandler
 ---
 directory
 ---
-getFileList():ArrayList<String>
+FileHandler()
+getFileList():List<String>
 getFileContents(file):String
 ```
-Test Cases
+
+# Notes
+ - getFileList() should ignore `.` and `..`
+
+# Test Cases
 
 `getFileList()`
-1. Empty directory, should return an empty list
-2. Directory with a few files, should return a list of those files (exclude `.` and `..`).
+1. `directory` is empty -> Empty list
+2. `directory` contains files -> List of file names
 
 `getFileContents()`
 1. Empty File -> empty string

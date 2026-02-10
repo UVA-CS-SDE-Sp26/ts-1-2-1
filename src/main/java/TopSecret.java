@@ -1,5 +1,8 @@
 /**
- * Commmand Line Utility
+ * Command Line Utility
  */
 public class TopSecret {
+    public static void main(String[] args) {
+
+    }
 }

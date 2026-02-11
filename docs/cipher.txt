@@ -3,13 +3,13 @@ Top Secret - Cipher (Member D)
 Purpose:
     -Given a ciphered string, return the deciphered version
 
-Inputs:
-    String of ciphered data:
-        - String to be deciphered
-    String of first line in the cipher
-        - actual letter based on the cipher match
-    String of second line in the cipher
-        -ciphered character that will be matched to the string above
+UML:
+-key: HashMap<Character, Character>
+-actualLetters: String
+-cipherMatch: String
+-------------------------------
+-createKeySet()
++decipher()
 
 Requirements to use:
     - needs method to read txt files and convert to strings
@@ -17,11 +17,11 @@ Requirements to use:
     - must work even when incomplete ciphers are used
     - must be generalized to work with any cipher and ciphered strings
 
-Pseudo Code:
+Pseudo Code for decipher method:
 
 Create an empty string where you store characters and will eventually return
 First loop through each individual character in the cipher key
-    Place the character into a hashset, with the key being the ciphered character
+    Place the character into key(the hashmap), with the key being the ciphered character
     and the value being the deciphered character
 Then Loop through the string to be deciphered
     if the set contains the character

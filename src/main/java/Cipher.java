@@ -1,9 +1,9 @@
 import java.util.HashMap;
 
 public class Cipher {
-    HashMap<Character, Character> key;
-    String actualLetters;
-    String cipherMatch;
+    private HashMap<Character, Character> key;
+    private String actualLetters;
+    private String cipherMatch;
 
     public Cipher(String actualLetters, String cipherMatch){
         this.actualLetters = actualLetters;

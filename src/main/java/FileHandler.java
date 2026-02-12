@@ -37,4 +37,12 @@ public class FileHandler {
             return null;
         }
     }
+
+    public static String getFileAbsolute(String path) {
+        try {
+            return Files.readString(Paths.get(path));
+        } catch (IOException err) {
+            return null;
+        }
+    }
 }

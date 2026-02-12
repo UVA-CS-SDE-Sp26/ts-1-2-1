@@ -58,4 +58,6 @@ class FileHandlerTest {
         var contents = fileHandler.getFileContents("fileA.txt");
         assertEquals("Contents of data/fileA.txt", contents);
     }
+
+    @Test
 }

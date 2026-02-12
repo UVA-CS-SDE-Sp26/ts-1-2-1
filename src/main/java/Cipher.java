@@ -8,7 +8,7 @@ public class Cipher {
     public Cipher(String actualLetters, String cipherMatch){
         this.actualLetters = actualLetters;
         this.cipherMatch = cipherMatch;
-        this.key = createKeySet();
+        this.key = new HashMap<>();
     }
 
     public String getActualLetters() {
@@ -25,14 +25,6 @@ public class Cipher {
 
     public void setCipherMatch(String cipherMatch) {
         this.cipherMatch = cipherMatch;
-    }
-
-    private HashMap<Character,Character> createKeySet(){
-        HashMap<Character, Character> keyMap = new HashMap<>();
-        for(int i = 0; i < actualLetters.length(); i++){
-
-        }
-        return keyMap;
     }
 
     public String decipher(String toDecrypt){

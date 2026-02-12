@@ -2,13 +2,18 @@ Top Secret - Cipher (Member D)
 
 Purpose:
     -Given a ciphered string, return the deciphered version
+    -Contains a cipher object which takes in two strings, the two lines which
+     make up the cipher
+        -actualLetters are the letters that should be returned
+         to the user
+        -cipherMatch are the ciphered letters
+
 
 UML:
 -key: HashMap<Character, Character>
 -actualLetters: String
 -cipherMatch: String
 -------------------------------
--createKeySet()
 +decipher()
 
 Requirements to use:

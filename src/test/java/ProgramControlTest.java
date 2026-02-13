@@ -224,14 +224,18 @@ class ProgramControlTest {
     }
 
     @Test
-    void keyProvidedButCipherNull() {
-        ProgramControl programControlNoCipher = new ProgramControl(mockFileHandler, null);
+    void keyAndCipherBothNotNull() {
+        Cipher mockCipher = mock(Cipher.class);
+        ProgramControl programControlWithCipher = new ProgramControl(mockFileHandler, mockCipher);
+        
         when(mockFileHandler.getFileList()).thenReturn(List.of("a.txt"));
-        when(mockFileHandler.getFileContents("a.txt")).thenReturn("Original Text");
+        when(mockFileHandler.getFileContents("a.txt")).thenReturn("Encrypted Text");
+        when(mockCipher.decipher("Encrypted Text")).thenReturn("Decrypted Text");
 
-        String result = programControlNoCipher.handleArguments(new String[]{"01", "somekey"});
+        String result = programControlWithCipher.handleArguments(new String[]{"01", "somekey"});
 
-        assertEquals("Original Text", result);
+        assertEquals("Decrypted Text", result);
         verify(mockFileHandler).getFileContents("a.txt");
+        verify(mockCipher).decipher("Encrypted Text");
     }
 }

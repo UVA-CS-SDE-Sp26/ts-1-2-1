@@ -222,4 +222,16 @@ class ProgramControlTest {
 
         assertEquals("Text", result);
     }
+
+    @Test
+    void keyProvidedButCipherNull() {
+        ProgramControl programControlNoCipher = new ProgramControl(mockFileHandler, null);
+        when(mockFileHandler.getFileList()).thenReturn(List.of("a.txt"));
+        when(mockFileHandler.getFileContents("a.txt")).thenReturn("Original Text");
+
+        String result = programControlNoCipher.handleArguments(new String[]{"01", "somekey"});
+
+        assertEquals("Original Text", result);
+        verify(mockFileHandler).getFileContents("a.txt");
+    }
 }

@@ -187,3 +187,8 @@ Test Cases
     -Input: ["01", ""]
     -File handler returns: error
     -Expected result: error message
+-KeyProvidedButCipherNull
+    -Input: ["01", "somekey"]
+    -Cipher object: null
+    -File handler returns: original text
+    -Expected result: original text (cipher not applied)

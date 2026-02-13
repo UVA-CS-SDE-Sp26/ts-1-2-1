@@ -29,7 +29,7 @@ public class TopSecret {
         // - Else: try default ./ciphers/key.txt
         String cipherPath = (keyArg != null) ? resolveCipherPath(keyArg) : "./ciphers/key.txt";
 
-        Cipher cipher = loadCipherOrNull(cipherPath);
+        Cipher cipher = fileHandler.readCipherKey(cipherPath);
 
         // If user explicitly supplied a key but we couldn't load it, error out
         if (keyArg != null && cipher == null) {
@@ -64,35 +64,5 @@ public class TopSecret {
             return keyArg;
         }
         return "./ciphers/" + keyArg;
-    }
-
-    /**
-     * Loads cipher mapping from a key file that contains:
-     * line 1: actual letters
-     * line 2: cipher match letters
-     *
-     * Returns null if file missing/invalid.
-     *
-     */
-    private static Cipher loadCipherOrNull(String path) {
-        try {
-            java.nio.file.Path p = java.nio.file.Paths.get(path);
-            if (!java.nio.file.Files.exists(p)) return null;
-
-            String raw = java.nio.file.Files.readString(p);
-
-            String[] lines = raw.replace("\r\n", "\n").replace("\r", "\n").split("\n");
-            if (lines.length < 2) return null;
-
-            String actualLetters = lines[0];
-            String cipherMatch = lines[1];
-
-            if (actualLetters.length() != cipherMatch.length()) return null;
-
-            return new Cipher(actualLetters, cipherMatch);
-
-        } catch (Exception e) {
-            return null;
-        }
     }
 }

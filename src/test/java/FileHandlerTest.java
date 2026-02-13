@@ -108,5 +108,26 @@ class FileHandlerTest {
                 key.getCipherMatch(),
                 "Cipher matches were not equal"
         );
+
+        filesMock.when(() -> Files.exists(path)).thenReturn(false);
+        key = fileHandler.readCipherKey("./ciphers/test.txt");
+        assertNull(key, "Expected key to be null from file not existing");
+
+        filesMock.when(() -> Files.exists(path)).thenReturn(true);
+        filesMock.when(() -> Files.readString(path)).thenThrow(new IOException());
+        key = fileHandler.readCipherKey("./ciphers/test.txt");
+        assertNull(key, "Expected key to be null from thrown IOException");
+
+        filesMock
+                .when(() -> Files.readString(path))
+                .thenReturn("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        key = fileHandler.readCipherKey("./ciphers/test.txt");
+        assertNull(key, "Expected key to be null from file not having correct number of lines");
+
+        filesMock
+                .when(() -> Files.readString(path))
+                .thenReturn("ABCDEFGHIJKLMNOPQRSTUVWXYZ\nASD");
+        key = fileHandler.readCipherKey("./ciphers/test.txt");
+        assertNull(key, "Expected key to be null from lines not having equal numbers of characters");
     }
 }

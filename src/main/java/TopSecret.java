@@ -94,5 +94,6 @@ public class TopSecret {
         if (actualLetters.length() != cipherMatch.length()) return null;
 
         return new Cipher(actualLetters, cipherMatch);
+
     }
 }

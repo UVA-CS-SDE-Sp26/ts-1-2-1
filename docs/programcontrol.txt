@@ -126,6 +126,9 @@ Test Cases
     -Expected result: error message
 
 2. File List Formatting
+-OneFile
+    -File List: ["a.txt"]
+    -Expected result: "01 a.txt"
 -TwoFiles
     -File List: ["a.txt","b.txt"]
     -Expected result: "01 a.txt 02 b.txt"
@@ -135,6 +138,9 @@ Test Cases
 -ManyFiles
     -10 files from file list
     -Expected result: all formatted properly and two digit
+-ListNull
+    -null list
+    -Expected result: "No files available"
 
 3. Selection Mapping
 -Valid01
@@ -152,6 +158,10 @@ Test Cases
 -InvalidInput
     -Input: "HI"
     -File list: ["a.txt","b.txt"]
+    -Expected result: error message
+-ZeroInvalid
+    -Input: "00"
+    -File list: ["a.txt"]
     -Expected result: error message
 
 4. File Content Request
@@ -171,5 +181,9 @@ Test Cases
     -Expected result: decoded text
 -InvalidKey
     -Input: ["01","not a key"]
+    -File handler returns: error
+    -Expected result: error message
+-EmptyKey
+    -Input: ["01", ""]
     -File handler returns: error
     -Expected result: error message

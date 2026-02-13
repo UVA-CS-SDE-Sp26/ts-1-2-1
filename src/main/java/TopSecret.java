@@ -73,27 +73,26 @@ public class TopSecret {
      *
      * Returns null if file missing/invalid.
      *
-     * IMPORTANT: This method does not directly read files. It uses FileHandler.getFileAbsolute
-     * to keep file access inside FileHandler per the assignment fence.
      */
     private static Cipher loadCipherOrNull(String path) {
-        String raw = FileHandler.getFileAbsolute(path);
-        if (raw == null) return null;
+        try {
+            java.nio.file.Path p = java.nio.file.Paths.get(path);
+            if (!java.nio.file.Files.exists(p)) return null;
 
-        // Normalize newlines and split
-        String[] lines = raw.replace("\r\n", "\n").replace("\r", "\n").split("\n");
+            String raw = java.nio.file.Files.readString(p);
 
-        if (lines.length < 2) return null;
+            String[] lines = raw.replace("\r\n", "\n").replace("\r", "\n").split("\n");
+            if (lines.length < 2) return null;
 
-        String actualLetters = lines[0];
-        String cipherMatch = lines[1];
+            String actualLetters = lines[0];
+            String cipherMatch = lines[1];
 
-        // Basic validation
-        if (actualLetters == null || cipherMatch == null) return null;
-        if (actualLetters.length() == 0 || cipherMatch.length() == 0) return null;
-        if (actualLetters.length() != cipherMatch.length()) return null;
+            if (actualLetters.length() != cipherMatch.length()) return null;
 
-        return new Cipher(actualLetters, cipherMatch);
+            return new Cipher(actualLetters, cipherMatch);
 
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

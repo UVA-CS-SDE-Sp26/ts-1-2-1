@@ -3,9 +3,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -40,10 +42,28 @@ class FileHandlerTest {
 
         filesMock.when(() -> Files.list(mockDataDir)).thenReturn(mockStream);
 
-        assertEquals(fileHandler.directory, mockDataDir);
-
         var fileList = fileHandler.getFileList();
-        assertArrayEquals(new String[] { "fileA.txt", "fileB.txt", "fileC.txt" }, fileList.toArray());
+        assertArrayEquals(
+                new String[] { "fileA.txt", "fileB.txt", "fileC.txt" },
+                fileList.toArray(),
+                "Incorrect getFileList() output."
+        );
+
+        filesMock.when(() -> Files.list(mockDataDir)).thenReturn(Stream.empty());
+
+        fileList = fileHandler.getFileList();
+        assertEquals(
+                List.of(),
+                fileList,
+                "Expected fileList to be empty"
+        );
+
+        filesMock.when(() -> Files.list(mockDataDir)).thenThrow(new IOException());
+        fileList = fileHandler.getFileList();
+        assertNull(
+                fileList,
+                "Expected fileList to be null because of thrown exception"
+        );
 
     }
 
@@ -57,5 +77,36 @@ class FileHandlerTest {
 
         var contents = fileHandler.getFileContents("fileA.txt");
         assertEquals("Contents of data/fileA.txt", contents);
+
+        filesMock
+                .when(() -> Files.readString(Paths.get("data/fileA.txt")))
+                .thenThrow(new IOException());
+
+        contents = fileHandler.getFileContents("fileA.txt");
+        assertNull(contents, "Expected contents to be null");
+    }
+
+    @Test
+    void readCipherKey() {
+        fileHandler = new FileHandler();
+        var path = Paths.get("./ciphers/test.txt");
+
+        filesMock.when(() -> Files.exists(path)).thenReturn(true);
+
+        filesMock
+                .when(() -> Files.readString(path))
+                .thenReturn("ABCDEFGHIJKLMNOPQRSTUVWXYZ\nBCDEFGHIJKLMNOPQRSTUVWXYZA");
+        var key = fileHandler.readCipherKey("./ciphers/test.txt");
+        var expected = new Cipher("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "BCDEFGHIJKLMNOPQRSTUVWXYZA");
+        assertEquals(
+                expected.getActualLetters(),
+                key.getActualLetters(),
+                "Actual cipher letters did not match"
+        );
+        assertEquals(
+                expected.getCipherMatch(),
+                key.getCipherMatch(),
+                "Cipher matches were not equal"
+        );
     }
 }

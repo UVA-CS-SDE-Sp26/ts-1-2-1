@@ -15,16 +15,8 @@ public class Cipher {
         return actualLetters;
     }
 
-    public void setActualLetters(String actualLetters) {
-        this.actualLetters = actualLetters;
-    }
-
     public String getCipherMatch() {
         return cipherMatch;
-    }
-
-    public void setCipherMatch(String cipherMatch) {
-        this.cipherMatch = cipherMatch;
     }
 
     public String decipher(String toDecrypt){

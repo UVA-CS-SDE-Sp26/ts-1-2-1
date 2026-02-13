@@ -41,3 +41,5 @@ Test Cases:
 2. given any string and an empty cipher, should return the original string
 3. given the cipher of key.txt and a ciphered string "eph." should return "dog."
 4. given a ciphered string that is the first line of key.txt, return the 2nd line of key.txt
+5. using a different key, test if it works. Key is abc --> xyz, given XYZabc, should return XYZxyz
+6. using another different cipher and multiple of the same character, given key as 123 --> abc, aabbcc should return 112233
